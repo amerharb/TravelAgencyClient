@@ -11,7 +11,7 @@ public class Client {
         this.ServerPort = ServerPort;
     }
 
-    public void test() {
+    public void connect() {
         Socket client = null;
         for (int i = 0; i < 10; i++) {
             try {

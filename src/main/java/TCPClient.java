@@ -8,6 +8,6 @@ public class TCPClient {
 
     public static void main(String[] args) {
         Client client = new Client(ServerAddress, ServerPort);
-        client.test();
+        client.connect();
     }
 }
