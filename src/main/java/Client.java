@@ -54,7 +54,9 @@ public class Client {
             }
 
             // Read data from the input stream of the client socket.
-            System.out.println(br.readLine());
+            while (br.ready()) {
+                System.out.println(br.readLine());
+            }
             pw.close();
             br.close();
             client.close();
