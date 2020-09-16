@@ -69,13 +69,10 @@ public class Client {
                     System.out.println("downloading file: " + filename + " size (" + fileSize + ")");
                     FileOutputStream fos = new FileOutputStream(filename);
                     BufferedOutputStream bos = new BufferedOutputStream(fos);
-                    int readCount;
-                    while ((readCount = clientIn.read(bytes, 0, bytes.length)) != -1) {
-                        bos.write(bytes, 0, readCount);
-                    }
 
                     bytesRead = clientIn.read(bytes, 0, bytes.length);
                     bos.write(bytes, 0 , bytesRead);
+
                     bos.flush();
                     fos.close();
                     bos.close();
