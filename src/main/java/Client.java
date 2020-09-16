@@ -48,11 +48,24 @@ public class Client {
                 do {
                     msg = stdIn.readLine().trim();
                 } while (invalidNumber(msg));
-
                 pw.println(msg);
+                pw.flush();
+
+                // Read Welcome message.
+                while (!br.ready()) {
+                    sleep(500);
+                }
+                while (br.ready()) {
+                    System.out.println(br.readLine());
+                }
+
+                // Read data from standard input to send isFerry
+                msg = stdIn.readLine().trim();
+                pw.println(msg);
+                pw.flush();
 
                 // Read data from the input stream of the client socket.
-                System.out.println("Message returned from the server = " + br.readLine());
+                System.out.println(br.readLine());
                 pw.close();
                 br.close();
                 client.close();
@@ -70,7 +83,7 @@ public class Client {
     }
 
     private boolean invalidNumber(String s) {
-        if (isInteger(s))
+        if (s.equalsIgnoreCase("bye") || isInteger(s))
             return false;
 
         System.out.println("INVALID NUMBER");
