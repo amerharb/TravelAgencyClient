@@ -55,8 +55,33 @@ public class Client {
             }
 
             // Read data from the input stream of the client socket.
+            while (!br.ready()) { // TODO: or timeout
+                sleep(50);
+            }
             while (br.ready()) {
-                System.out.println(br.readLine());
+                int bytesRead = 0;
+                String l = br.readLine();
+                if (l.equals("FILE BEGIN ...")) {
+                    //download file
+                    String filename = br.readLine();
+                    int fileSize = Integer.parseInt(br.readLine());
+                    byte[] bytes = new byte[fileSize];
+                    System.out.println("downloading file: " + filename + " size (" + fileSize + ")");
+                    FileOutputStream fos = new FileOutputStream(filename);
+                    BufferedOutputStream bos = new BufferedOutputStream(fos);
+                    int readCount;
+                    while ((readCount = clientIn.read(bytes, 0, bytes.length)) != -1) {
+                        bos.write(bytes, 0, readCount);
+                    }
+
+                    bytesRead = clientIn.read(bytes, 0, bytes.length);
+                    bos.write(bytes, 0 , bytesRead);
+                    bos.flush();
+                    fos.close();
+                    bos.close();
+                } else {
+                    System.out.println(l);
+                }
             }
             pw.close();
             br.close();
