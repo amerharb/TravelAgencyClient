@@ -6,7 +6,7 @@ public class Client {
     String ServerAddress;
     int ServerPort;
 
-    public Client(String ServerAddress, int ServerPort){
+    public Client(String ServerAddress, int ServerPort) {
         this.ServerAddress = ServerAddress;
         this.ServerPort = ServerPort;
     }
@@ -31,9 +31,19 @@ public class Client {
 
                 // Create BufferedReader for a standard input
                 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-                System.out.println("Enter your name. Type Bye to exit. ");
+                System.out.println("You are now connected to vacation planner Server");
+                System.out.println("Address:" + ServerAddress + ":" + ServerPort);
 
-                // Read data from standard input device and write it to the output stream of the client socket.
+                // Read Welcome message.
+                while (!br.ready()) {
+                    System.out.println("sleep");
+                    Thread.sleep(500);
+                }
+                while (br.ready()) {
+                    System.out.println(br.readLine());
+                }
+
+                // Read data from standard input to send number of travelers
                 msg = stdIn.readLine().trim();
                 pw.println(msg);
 
@@ -47,6 +57,8 @@ public class Client {
                 if (msg.equalsIgnoreCase("Bye"))
                     break;
 
+            } catch (InterruptedException ie) {
+                System.out.println(ie);
             } catch (IOException ie) {
                 System.out.println("I/O error " + ie);
             }
