@@ -2,6 +2,8 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import static java.lang.Thread.sleep;
+
 public class Client {
     String ServerAddress;
     int ServerPort;
@@ -36,15 +38,17 @@ public class Client {
 
                 // Read Welcome message.
                 while (!br.ready()) {
-                    System.out.println("sleep");
-                    Thread.sleep(500);
+                    sleep(500);
                 }
                 while (br.ready()) {
                     System.out.println(br.readLine());
                 }
 
                 // Read data from standard input to send number of travelers
-                msg = stdIn.readLine().trim();
+                do {
+                    msg = stdIn.readLine().trim();
+                } while (invalidNumber(msg));
+
                 pw.println(msg);
 
                 // Read data from the input stream of the client socket.
@@ -58,11 +62,27 @@ public class Client {
                     break;
 
             } catch (InterruptedException ie) {
-                System.out.println(ie);
+                System.out.println("InterruptedException error " + ie);
             } catch (IOException ie) {
                 System.out.println("I/O error " + ie);
             }
         }
     }
 
+    private boolean invalidNumber(String s) {
+        if (isInteger(s))
+            return false;
+
+        System.out.println("INVALID NUMBER");
+        return true;
+    }
+
+    private boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
 }
