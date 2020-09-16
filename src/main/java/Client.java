@@ -45,12 +45,13 @@ public class Client {
                 }
 
                 msg = stdIn.readLine().trim();
-                // Stop the operation
-                if (msg.equalsIgnoreCase("Bye"))
-                    break;
 
                 pw.println(msg);
                 pw.flush();
+
+                // Stop the operation
+                if (msg.equalsIgnoreCase("Bye"))
+                    break;
             }
 
             // Read data from the input stream of the client socket.
