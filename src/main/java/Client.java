@@ -15,70 +15,53 @@ public class Client {
 
     public void connect() {
         Socket client = null;
-        for (int i = 0; i < 10; i++) {
-            try {
-                String msg;
+        try {
+            String msg;
 
-                // Create a client socket
-                client = new Socket(InetAddress.getByName(ServerAddress), ServerPort);
-                System.out.println("Client socket is created " + client);
+            // Create a client socket
+            client = new Socket(InetAddress.getByName(ServerAddress), ServerPort);
+            System.out.println("Client socket is created " + client);
 
-                // Create an output stream of the client socket
-                OutputStream clientOut = client.getOutputStream();
-                PrintWriter pw = new PrintWriter(clientOut, true);
+            // Create an output stream of the client socket
+            OutputStream clientOut = client.getOutputStream();
+            PrintWriter pw = new PrintWriter(clientOut, true);
 
-                // Create an input stream of the client socket
-                InputStream clientIn = client.getInputStream();
-                BufferedReader br = new BufferedReader(new InputStreamReader(clientIn));
+            // Create an input stream of the client socket
+            InputStream clientIn = client.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(clientIn));
 
-                // Create BufferedReader for a standard input
-                BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-                System.out.println("You are now connected to vacation planner Server");
-                System.out.println("Address:" + ServerAddress + ":" + ServerPort);
+            // Create BufferedReader for a standard input
+            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("You are now connected to vacation planner Server");
+            System.out.println("Address:" + ServerAddress + ":" + ServerPort);
 
+            for (int i = 0; i < 6; i++) {
                 // Read Welcome message.
                 while (!br.ready()) {
-                    sleep(500);
+                    sleep(100);
                 }
                 while (br.ready()) {
                     System.out.println(br.readLine());
                 }
 
-                // Read data from standard input to send number of travelers
-                do {
-                    msg = stdIn.readLine().trim();
-                } while (invalidNumber(msg));
-                pw.println(msg);
-                pw.flush();
-
-                // Read Welcome message.
-                while (!br.ready()) {
-                    sleep(500);
-                }
-                while (br.ready()) {
-                    System.out.println(br.readLine());
-                }
-
-                // Read data from standard input to send isFerry
                 msg = stdIn.readLine().trim();
-                pw.println(msg);
-                pw.flush();
-
-                // Read data from the input stream of the client socket.
-                System.out.println(br.readLine());
-                pw.close();
-                br.close();
-                client.close();
-
                 // Stop the operation
                 if (msg.equalsIgnoreCase("Bye"))
                     break;
 
-            } catch (InterruptedException ie) {
-                System.out.println("InterruptedException error " + ie);
-            } catch (IOException ie) {
-                System.out.println("I/O error " + ie);
+                pw.println(msg);
+                pw.flush();
             }
+
+            // Read data from the input stream of the client socket.
+            System.out.println(br.readLine());
+            pw.close();
+            br.close();
+            client.close();
+        } catch (InterruptedException ie) {
+            System.out.println("InterruptedException error " + ie);
+        } catch (IOException ie) {
+            System.out.println("I/O error " + ie);
         }
     }
 
@@ -93,7 +76,7 @@ public class Client {
     private boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
         }
         return true;
