@@ -35,7 +35,7 @@ public class Client {
             System.out.println("You are now connected to vacation planner Server");
             System.out.println("Address:" + ServerAddress + ":" + ServerPort);
 
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 7; i++) {
                 // Read Welcome message.
                 while (!br.ready()) {
                     sleep(100);
